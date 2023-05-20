@@ -1,10 +1,30 @@
 package com.practice.problems.leetcode.binarytree;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Problem199$BinaryTreeRightSideView {
-
+    //Optimized Approach
     public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        dfs(0, root, result);
+        return result;
+    }
+
+    private void dfs(int depth, TreeNode node, List<Integer> rightViewNodes) {
+        if (node == null) {
+            return;
+        }
+
+        if (depth == rightViewNodes.size()) {
+            rightViewNodes.add(node.val);
+        }
+        //traverse right node first as we need right view
+        dfs(depth + 1, node.right, rightViewNodes);
+        dfs(depth + 1, node.left, rightViewNodes);
+    }
+
+    /*public List<Integer> rightSideView(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Queue<Pair> queue = new LinkedList<>();
         Map<Integer, Integer> map = new LinkedHashMap<>();
@@ -35,7 +55,7 @@ public class Problem199$BinaryTreeRightSideView {
             this.x = _x;
             this.node = _node;
         }
-    }
+    }*/
 
     private static class TreeNode {
         int val;
@@ -65,7 +85,7 @@ public class Problem199$BinaryTreeRightSideView {
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
 
-        
+
         Problem199$BinaryTreeRightSideView obj = new Problem199$BinaryTreeRightSideView();
         obj.rightSideView(root).forEach(num -> System.out.print(num + " "));
     }
